@@ -1,0 +1,56 @@
+<script data-theme-toggle>
+  // Light/dark toggle for the Strange Leaflet theme. Paste into Bear's head directive.
+  // Follows the OS until a visitor picks the other scheme; picking the OS's own
+  // scheme again goes back to following the OS.
+  (() => {
+    const KEY = "theme";
+    const root = document.documentElement;
+    const media = matchMedia("(prefers-color-scheme: dark)");
+    const system = () => (media.matches ? "dark" : "light");
+    const current = () => root.dataset.theme || system();
+    const svg = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+    const ICONS = {
+      dark: svg("M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"), // moon
+      light: svg("M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"), // sun
+    };
+    let button;
+
+    function label() {
+      if (!button) return;
+      const next = current() === "dark" ? "light" : "dark";
+      button.innerHTML = ICONS[next];
+      button.title = `Switch to ${next} theme`;
+      button.setAttribute("aria-label", button.title);
+    }
+
+    function set(theme) {
+      if (theme === "light" || theme === "dark") root.dataset.theme = theme;
+      else delete root.dataset.theme;
+      label();
+    }
+
+    // Runs in <head>, before the page paints, so there's no flash of the wrong theme
+    try { set(localStorage.getItem(KEY)); } catch {}
+
+    function addButton() {
+      button = document.createElement("button");
+      button.type = "button";
+      button.className = "theme-toggle";
+      button.addEventListener("click", () => {
+        const next = current() === "dark" ? "light" : "dark";
+        const choice = next === system() ? null : next;
+        try { choice ? localStorage.setItem(KEY, choice) : localStorage.removeItem(KEY); } catch {}
+        set(choice);
+      });
+      const nav = document.querySelector("header nav p") || document.querySelector("header nav");
+      nav?.append(" ", button);
+      label();
+    }
+
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", addButton);
+    else addButton();
+    media.addEventListener("change", label);
+    // Keep other open tabs in sync
+    addEventListener("storage", (e) => { if (e.key === KEY) set(e.newValue); });
+  })();
+</script>

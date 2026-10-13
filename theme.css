@@ -22,65 +22,41 @@
   }
 }
 
-/* Colors: Light mode, leaflet paper and navy ink */
+/* Colors: leaflet paper and navy ink by day, the curios' night cabinet by night.
+   Follows the OS unless the visitor picks a theme (theme-toggle.html sets data-theme). */
 :root {
-  color-scheme: light;
-  --bg: #F7F4EC;
-  --ink: #1F2A44;
-  --muted: #5B6478;
-  --line: #DCD6C6;
-  --tint: #ECE7DA;      /* inline code, tags */
-  --brass: #8A6316;
-  --link: #24508A;
-  --selection: #E9D6A6;
+  color-scheme: light dark;
+  --bg: light-dark(#F7F4EC, #14222B);
+  --ink: light-dark(#1F2A44, #E8E2CC);
+  --muted: light-dark(#5B6478, #A6AE9F);
+  --line: light-dark(#DCD6C6, #2C4352);
+  --tint: light-dark(#ECE7DA, #1E3240);  /* inline code, tags */
+  --brass: light-dark(#8A6316, #D6A84A);
+  --link: light-dark(#24508A, #8EC3E8);
+  --selection: light-dark(#E9D6A6, #4A4127);
 
   /* Code: pale celadon, like the curios' museum glass */
-  --code-bg: #E8EDE6;
-  --code-line: #D3DCD1;
-  --code-ink: #1F2A44;
-  --code-comment: #5C6864;
-  --code-keyword: #8B3A86;
-  --code-string: #3A6A1E;
-  --code-number: #A04A10;
-  --code-function: #1E5A8E;
-  --code-type: #76540A;
-  --code-symbol: #0D6863;
-  --code-constant: #A33A2C;
-  --code-operator: #4E586B;
-  --code-variable: #5A3FA0;
-  --code-error: #B3261E;
-  --code-mark: rgba(214, 168, 74, 0.25);
+  --code-bg: light-dark(#E8EDE6, #0F1A21);
+  --code-line: light-dark(#D3DCD1, #22343F);
+  --code-ink: light-dark(#1F2A44, #E8E2CC);
+  --code-comment: light-dark(#5C6864, #8E9A93);
+  --code-keyword: light-dark(#8B3A86, #D9A6E4);
+  --code-string: light-dark(#3A6A1E, #AFD08C);
+  --code-number: light-dark(#A04A10, #F0A673);
+  --code-function: light-dark(#1E5A8E, #8EC6EE);
+  --code-type: light-dark(#76540A, #E5C27A);
+  --code-symbol: light-dark(#0D6863, #7FD3C8);
+  --code-constant: light-dark(#A33A2C, #F49B8A);
+  --code-operator: light-dark(#4E586B, #A9B4C4);
+  --code-variable: light-dark(#5A3FA0, #B9A9F2);
+  --code-error: light-dark(#B3261E, #FF8F87);
+  --code-mark: light-dark(rgba(214, 168, 74, 0.25), rgba(214, 168, 74, 0.18));
 }
-
-/* Colors: Dark mode, the curios' night cabinet */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --bg: #14222B;
-    --ink: #E8E2CC;
-    --muted: #A6AE9F;
-    --line: #2C4352;
-    --tint: #1E3240;
-    --brass: #D6A84A;
-    --link: #8EC3E8;
-    --selection: #4A4127;
-
-    --code-bg: #0F1A21;
-    --code-line: #22343F;
-    --code-ink: #E8E2CC;
-    --code-comment: #8E9A93;
-    --code-keyword: #D9A6E4;
-    --code-string: #AFD08C;
-    --code-number: #F0A673;
-    --code-function: #8EC6EE;
-    --code-type: #E5C27A;
-    --code-symbol: #7FD3C8;
-    --code-constant: #F49B8A;
-    --code-operator: #A9B4C4;
-    --code-variable: #B9A9F2;
-    --code-error: #FF8F87;
-    --code-mark: rgba(214, 168, 74, 0.18);
-  }
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 /* Resets */
@@ -174,6 +150,23 @@ nav a:hover {
   text-decoration: underline;
   text-decoration-color: var(--brass);
   text-decoration-thickness: 2px;
+}
+.theme-toggle { /* added to the nav by theme-toggle.html */
+  align-self: center;
+  margin: -.5rem -.5rem -.5rem auto;
+  padding: .5rem;
+  color: var(--muted);
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.theme-toggle svg {
+  display: block;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.theme-toggle:hover {
+  color: var(--brass);
 }
 
 /* Headings */
